@@ -12,7 +12,7 @@
 <a id="more"></a>
 
 <p>具体可以看下图：</p>
-
+<img src="/2020/06/21/View-Controller-Transition-%E8%BD%AC%E5%9C%BA/15909905564029.jpg" class="" title="This is an example image">
 
 
 <h3 id="iOS中几种转场方式"><a href="#iOS中几种转场方式" class="headerlink" title="iOS中几种转场方式"></a>iOS中几种转场方式</h3><p>Apple支持如下几种方式的自定义转场，并且提供转场代理来实现自定义转场。</p>
@@ -46,9 +46,12 @@
 
 <p>一般来说，(push/presentation)转场结束后，UIKit 会把 fromView 从视图结构中移除，你也可以手动处理提前将 fromView 移除;(pop/dismissal)转场结束后，UIKit 会自动将 toView(presentingView) 加入 containerView。</p>
 <p>iOS中三大转场代理中的方法不尽相同，但是它们返回的 动画控制器 和 交互控制器 所遵守的协议相同，这样便于我们封装。</p>
-<h3 id="Modal转场呈现的差别"><a href="#Modal转场呈现的差别" class="headerlink" title="Modal转场呈现的差别"></a>Modal转场呈现的差别</h3><p><img src="media/15731149769661/222.png" alt="222"></p>
+<h3 id="Modal转场呈现的差别"><a href="#Modal转场呈现的差别" class="headerlink" title="Modal转场呈现的差别"></a>Modal转场呈现的差别</h3>
+
 <p>从图中可以看出，Custom 模式下Modal转场后，fromeView 和 toView 在视图层次中还是存在可见的，在不同的 UITransitionView 中；而 Navigtion 转场结束后，fromeVC会被主动移出视图，只显示 toVC。</p>
-<p><img src="media/15731149769661/15911518963863.jpg" alt=""></p>
+<img src="/2020/06/21/View-Controller-Transition-%E8%BD%AC%E5%9C%BA/15911518963863.jpg" class="" title="This is an example image">
+
+
 <p>容器类 VC 的转场里 fromView 和 toView 是 containerView 的子层次的视图，而 Modal 转场里 presentingView 与 containerView 是同层次的视图，只有 presentedView 是 containerView 的子层次视图。</p>
 <h3 id="UITransitionView-containerView"><a href="#UITransitionView-containerView" class="headerlink" title="UITransitionView == containerView"></a>UITransitionView == containerView</h3><p>它是UIView 的私有子类，用来呈现 presentedView.</p>
 <p>可以在转场环境(Transition Context)中获取到它：</p>
