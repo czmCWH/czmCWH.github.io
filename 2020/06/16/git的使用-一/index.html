@@ -14,12 +14,11 @@
 </blockquote>
 <a id="more"></a>
 
+
 <p>2、集中化的版本控制系统 CVCS</p>
 <blockquote>
 <p>如：CVS、Subversion 以及 Perforce<br>通过一个单一的集中管理的服务器保存所有文件的修订版本，协同工作的人们都通过客户端连到这台服务器，checkout取出最新的文件或者commit提交更新。每个客户端本地只是保存一个版本的快照。</p>
 </blockquote>
-<!-- more -->
-
 <p>3、分布式版本控制系统 DVCS</p>
 <blockquote>
 <p>如：Git、Mercurial、Bazaar 以及 Darcs<br>对于分布式版本控制系统，<strong>每个客户端并不只提取最新版本的文件快照，而是把代码仓库完整地镜像下来，包括完整的历史记录</strong>。我们每一次的克隆操作，实际上都是一次对代码仓库的完整备份。当任何一处 ==协同工作用的服务器== 发生故障，事后都可以用任何一个镜像出来的本地仓库恢复。</p>
