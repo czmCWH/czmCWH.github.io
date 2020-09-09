@@ -20,7 +20,7 @@
 <h3 id="CALayer的绘图模型"><a href="#CALayer的绘图模型" class="headerlink" title="CALayer的绘图模型"></a>CALayer的绘图模型</h3><p>大多数情况下 <code>CALayer</code> 不会进行任何实际绘制，而是捕获 <code>UIView</code> 的内容并将其缓存在位图中，位图有时也称为<strong>后台存储</strong>。</p>
 <p>当随后更改 <code>CALayer</code> 的属性时，您所做的只是更改与 <code>CALayer</code> 对象关联的状态信息。当更改触发动画时，<code>Core Animation</code> 将 <code>CALayer</code>的位图和状态信息传递给图形硬件(<code>graphics hardware</code>)，由图形硬件使用新信息渲染位图，其过程如下图所示：</p>
 <p>在硬件中操作位图产生的动画比在软件中要快得多。</p>
-<img src="/2020/09/09/CALayer%E8%A7%A3%E6%9E%90/15964233241256.jpg" class="" title="This is an example image">
+<img src="/2020/09/09/CALayer%E8%A7%A3%E6%9E%90/15995306946548.jpg" class="" title="This is an example image">
 
 
 <p>基于 <code>CALayer</code> 的绘制与更传统的基于 <code>UIView</code> 的绘制技术有很大的不同。<code>Core Animation</code> 是直接操作静态位图来绘制内容；而对 <code>UIView</code> 本身的更改，需要调用 <code>UIView</code> 的 <code>drawRect:</code> 方法来使用新的参数重新绘制内容，这一过程是使用主线程上的CPU来完成的，其绘制方式是昂贵的。</p>
