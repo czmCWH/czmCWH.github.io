@@ -65,6 +65,9 @@
 <li><p>单独的进程<code>Separate processes</code>：如果任务需要大量内存，或者必须使用root特权执行，则可以使用进程。尽管比线程更重量级，但在任务与应用程序仅略有关联的情况下，创建一个单独的进程可能很有用。</p>
 </li>
 </ul>
+<blockquote>
+<p>警告：当使用<code>fork</code>函数启动单独的进程时，必须总是在调用<code>fork</code>之后调用<code>exec</code>或类似的函数。依赖于<code>Core Foundation</code>、<code>Cocoa</code>或<code>Core Data</code>框架(显式或隐式)的应用程序必须后续调用<code>exec</code>函数，否则这些框架可能会行为不当。</p>
+</blockquote>
 <h3 id="线程技术"><a href="#线程技术" class="headerlink" title="线程技术"></a>线程技术</h3><p>线程的底层实现机制是<code>Mach</code>线程，但是很少使用<code>Mach</code>级别的线程，而通常使用更方便的<code>POSIX API</code>或它的衍生产品之一。</p>
 <p><code>Mach</code>的实现提供了所有线程的基本功能，包括优先执行模型(<code>preemptive execution model</code>)和调度线程(<code>schedule threads</code>)的能力，使线程之间彼此独立。</p>
 <p>可以在应用程序中使用的线程技术：</p>
