@@ -1,0 +1,216 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="description" content="Threads(一)"><meta name="keywords" content="iOS"><meta name="author" content="Czm"><meta name="copyright" content="Czm"><title>Threads(一) | Czm</title><link rel="shortcut icon" href="/img/my-favicon.ico"><link rel="stylesheet" href="/css/index.css?version=1.7.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css?version=1.7.0"><meta name="format-detection" content="telephone=no"><meta http-equiv="x-dns-prefetch-control" content="on"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  }
+} </script><meta name="generator" content="Hexo 4.2.1"></head><body><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true"></i><div id="sidebar" data-display="true"><div class="toggle-sidebar-info text-center"><span data-toggle="切换文章详情">切换站点概览</span><hr></div><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar"></div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#线程"><span class="toc-number">1.</span> <span class="toc-text">线程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#程序和线程"><span class="toc-number">1.1.</span> <span class="toc-text">程序和线程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用线程时存在的问题"><span class="toc-number">1.2.</span> <span class="toc-text">使用线程时存在的问题</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1、单线程应用程序的问题"><span class="toc-number">1.2.1.</span> <span class="toc-text">1、单线程应用程序的问题</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2、多线程的问题"><span class="toc-number">1.2.2.</span> <span class="toc-text">2、多线程的问题</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#线程的替代方案"><span class="toc-number">1.3.</span> <span class="toc-text">线程的替代方案</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#线程技术"><span class="toc-number">1.4.</span> <span class="toc-text">线程技术</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#线程三种状态"><span class="toc-number">1.5.</span> <span class="toc-text">线程三种状态</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Run-Loop-和-Threads"><span class="toc-number">2.</span> <span class="toc-text">Run Loop 和 Threads</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#同步工具-Synchronization-Tools"><span class="toc-number">3.</span> <span class="toc-text">同步工具(Synchronization Tools)</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#互斥锁"><span class="toc-number">3.1.</span> <span class="toc-text">互斥锁</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#条件-conditions"><span class="toc-number">3.2.</span> <span class="toc-text">条件(conditions)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Atomic-Operations-原子操作"><span class="toc-number">3.3.</span> <span class="toc-text">Atomic Operations(原子操作)</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#线程间通讯-Inter-thread-Communication"><span class="toc-number">4.</span> <span class="toc-text">线程间通讯(Inter-thread Communication)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#线程设计技巧"><span class="toc-number">5.</span> <span class="toc-text">线程设计技巧</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#避免显式地创建线程"><span class="toc-number">5.1.</span> <span class="toc-text">避免显式地创建线程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#保持线程合理忙碌"><span class="toc-number">5.2.</span> <span class="toc-text">保持线程合理忙碌</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#避免共享数据结构"><span class="toc-number">5.3.</span> <span class="toc-text">避免共享数据结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#线程和用户界面"><span class="toc-number">5.4.</span> <span class="toc-text">线程和用户界面</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#注意退出时的线程行为"><span class="toc-number">5.5.</span> <span class="toc-text">注意退出时的线程行为</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#处理异常-Handle-Exceptions"><span class="toc-number">5.6.</span> <span class="toc-text">处理异常(Handle Exceptions)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#干净地终止线程"><span class="toc-number">5.7.</span> <span class="toc-text">干净地终止线程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#库中的线程安全-Thread-Safety-in-Libraries"><span class="toc-number">5.8.</span> <span class="toc-text">库中的线程安全(Thread Safety in Libraries)</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#学些博客"><span class="toc-number">6.</span> <span class="toc-text">学些博客</span></a></li></ol></div></div><div class="author-info hide"><div class="author-info__avatar text-center"><img src="img/avatar.jpeg"></div><div class="author-info__name text-center">Czm</div><div class="author-info__description text-center">学习记录</div><div class="follow-button"><a href="https://github.com/czmCWH" target="_blank" rel="noopener">Follow Me</a></div><hr><div class="author-info-articles"><a class="author-info-articles__archives article-meta" href="/archives"><span class="pull-left">文章</span><span class="pull-right">23</span></a><a class="author-info-articles__tags article-meta" href="/tags"><span class="pull-left">标签</span><span class="pull-right">7</span></a><a class="author-info-articles__categories article-meta" href="/categories"><span class="pull-left">分类</span><span class="pull-right">9</span></a></div><hr><div class="author-info-links"><div class="author-info-links__title text-center">Links</div><a class="author-info-links__name text-center" href="https://www.cnswift.org/about-swift" target="_blank" rel="noopener">swift中文文档</a><a class="author-info-links__name text-center" href="https://swift.gg" target="_blank" rel="noopener">SwiftGG</a><a class="author-info-links__name text-center" href="http://chuangzaoshi.com" target="_blank" rel="noopener">创造狮导航</a><a class="author-info-links__name text-center" href="http://lib.xcz.im/library" target="_blank" rel="noopener">《西窗烛》</a></div></div></div><div id="content-outer"><div class="no-bg" id="top-container"><div id="page-header"><span class="pull-left"> <a id="site-name" href="/">Czm</a></span><i class="fa fa-bars toggle-menu pull-right" aria-hidden="true"></i><span class="pull-right menus">   <a class="site-page" href="/">Home</a><a class="site-page" href="/archives">Archives</a><a class="site-page" href="/tags">Tags</a><a class="site-page" href="/categories">Categories</a><a class="site-page" href="/About">关于</a></span><span class="pull-right"></span></div><div id="post-info"><div id="post-title">Threads(一)</div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> 2021-10-15</time><span class="post-meta__separator">|</span><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/iOS/">iOS</a><i class="fa fa-angle-right" aria-hidden="true"></i><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/iOS/Thread-runloop/">Thread &amp; runloop</a></div></div></div><div class="layout" id="content-inner"><article id="post"><div class="article-container" id="post-content"><h2 id="线程"><a href="#线程" class="headerlink" title="线程"></a>线程</h2><p>多核 <code>CPU</code> 使计算机可以在同一时间执行多个任务。尽管系统在执行与系统相关的任务时会充分的利用这些核心，但是我们在编写应用程序时可以通过线程利用它们。</p>
+<p>线程(<code>Threads</code>)是在应用程序内部实现多个执行路径的一种相对轻量级方式。</p>
+<a id="more"></a>
+
+<ul>
+<li>进程(<code>process</code>)，指的是正在运行的可执行文件，它可以包含多个线程。</li>
+<li>线程(<code>thread</code>)，表示代码的独立执行路径。</li>
+<li>任务(<code>task</code>)，用于表示需要执行的工作的抽象概念。（<code>task</code>有时指正在运行的进程。）</li>
+</ul>
+<h3 id="程序和线程"><a href="#程序和线程" class="headerlink" title="程序和线程"></a>程序和线程</h3><p>1、程序和线程</p>
+<p>在系统层面，程序并行运行，系统会根据每个程序的需求来给每个程序分配执行时间；</p>
+<p>在每个程序内部都存在一个或多个执行的 线程，这些线程可以用来同时或以几乎同时的方式执行不同的任务；</p>
+<p>系统本身实际上管理这些执行线程，调度它们在可用的核心上运行，并根据需要预先中断它们以允许其他线程运行；</p>
+<p>2、技术层面看线程</p>
+<p>从技术角度来看，线程是管理代码执行所需的 内核级(<code>kernel-level</code>) 和 应用程序级(<code>application-level</code>) 数据结构的组合。</p>
+<ul>
+<li><p><code>kernel-level</code>结构协调 向线程分派事件 和 在一个可用内核上进行线程的优先调度。</p>
+</li>
+<li><p><code>application-level</code>结构包括 用于存储函数调用的调用堆栈，以及应用程序管理和操作线程的属性 和 状态所需的结构。</p>
+</li>
+</ul>
+<p>3、多线程的优势</p>
+<p>并发的应用程序从一个线程开始，并根据需要添加更多线程以创建其它的执行路径。每个新路径都有自己的自定义启动例程(事务)，这些例程独立于应用程序主例程中的代码运行。</p>
+<p>在应用程序中使用多线程(<code>multiple threads</code>)提供了两个非常重要的潜在优势:</p>
+<ul>
+<li>多线程可以提高应用程序的响应能力；</li>
+<li>多线程可以提高应用程序在多核系统上的实时性能；</li>
+</ul>
+<h3 id="使用线程时存在的问题"><a href="#使用线程时存在的问题" class="headerlink" title="使用线程时存在的问题"></a>使用线程时存在的问题</h3><h4 id="1、单线程应用程序的问题"><a href="#1、单线程应用程序的问题" class="headerlink" title="1、单线程应用程序的问题"></a>1、单线程应用程序的问题</h4><p>如果应用程序只有一个线程，则该线程必须执行所有操作。其问题在于，它一次只能执行一件事。</p>
+<p>在该应用程序中，当一个计算需要很长时间才能完成时，应用程序将停止响应用户事件并更新其窗口，如果这种行为持续足够长的时间，用户可能会认为应用程序已挂起，并尝试强制退出它。如果将耗时计算移动到一个单独的线程上，则应用程序的主线程将可以更及时地响应用户交互。</p>
+<h4 id="2、多线程的问题"><a href="#2、多线程的问题" class="headerlink" title="2、多线程的问题"></a>2、多线程的问题</h4><p>使用多线程的应用程序，在执行不同任务的线程可以在不同处理器核心上同时执行操作，从而使应用程序可以在给定的时间内增加其工作量。</p>
+<p>多线程也潜在问题，在应用程序中具有多个执行路径能会增加代码的复杂性。</p>
+<p>每个线程必须与其他线程协调其操作，以防止损坏应用程序的状态信息。由于单个应用程序中的线程共享相同的内存空间，因此它们可以访问所有相同的数据结构。如果两个线程试图同时操作同一个数据结构，一个线程可能会以破坏结果数据结构的方式覆盖另一个线程的更改。即使有适当的保护措施，您仍然必须提防编译器优化，这些优化会在代码中引入细微的错误。</p>
+<h3 id="线程的替代方案"><a href="#线程的替代方案" class="headerlink" title="线程的替代方案"></a>线程的替代方案</h3><p>通过自己创建线程实现并发，需要考虑如下两个问题：</p>
+<ul>
+<li><p>自己创建线程会增加代码的不确定性。<br>线程是在应用程序中支持并发的相对低级和复杂方式。如果您不完全理解设计选项的含义，则很容易会遇到 同步或定时问题，其严重性可能 从微妙的行为变化 到应用程序崩溃 和 用户数据损坏。</p>
+</li>
+<li><p>另一个要考虑的因素是你是需要线程还是并发。<br>线程解决了如何在同一进程内并发执行多个代码路径的具体问题。但是，在某些情况下，您所做的工作量不能保证并发。线程在 内存消耗 和 CPU时间 方面都会给您的进程带来巨大开销。您可能会发现此开销对于预期的任务来说太大了，或者其他选项更易于实现。</p>
+</li>
+</ul>
+<p>如下列出了线程的一些替代方案，既包括线程的替换技术(<code>Operation</code>和<code>GCD</code>)，也包括旨在有效利用现有单线程的替代方法。</p>
+<ul>
+<li><p><code>Operation objects</code> 是通常在子线程上执行任务的包装器。通常将这些<code>operation</code>对象与<code>operation queue</code>对象一起使用，该<code>operation queue</code>对象实际上管理一个或多个线程上<code>operation</code>对象的执行。在OS X v10.5中引入。</p>
+</li>
+<li><p><code>GCD</code> 使用GCD，可以定义要执行的任务并将其添加到工作队列中，该队列在适当线程上处理任务调度。工作队列考虑了 可用核心的数量 和 当前负载，以比使用线程更有效地执行任务。在Mac OS x v10.6中引入。</p>
+</li>
+</ul>
+<p><code>Operation objects</code> 和 <code>GCD</code> 是使用多线程的两种方案，可以使你专注于需要执行的任务，而不是线程管理。</p>
+<ul>
+<li><p><a href="https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/Notifications/Introduction/introNotifications.html#//apple_ref/doc/uid/10000043i" target="_blank" rel="noopener">Idle-time notifications</a>：对于相对较短且优先级很低的任务，空闲时间通知(<code>Idle-time notifications</code>)允许您在应用程序不那么忙的时候执行任务。<code>Cocoa</code>使用<code>NSNotificationQueue</code>对象来提供<code>idle-time notifications</code>。要请求<code>idle-time notification</code>，请使用 <code>NSPostWhenIdle</code> 选项将通知发布到默认的 <code>NSNotificationQueue</code> 对象。队列将延迟通知对象的传递，直到<code>run loop</code>变为空闲。</p>
+</li>
+<li><p>异步函数(<code>Asynchronous functions</code>)：系统接口包括许多异步函数，为你提供自动并发。这些API可以使用系统守护进程和进程，或者创建自定义线程来执行任务并将结果返回给您。在设计应用程序时，请寻找提供异步行为的函数，并考虑使用它们，而不是在自定义线程上使用等效的同步函数。</p>
+</li>
+<li><p>计时器<a href="https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/Multithreading/RunLoopManagement/RunLoopManagement.html#//apple_ref/doc/uid/10000057i-CH16-SW21" target="_blank" rel="noopener">Timers</a>：可以在应用程序的主线程上使用<code>Timers</code>来执行一些周期性的任务，这些任务由于太琐碎而不需要线程，但是仍然需要定期地进行维护。</p>
+</li>
+<li><p>单独的进程<code>Separate processes</code>：如果任务需要大量内存，或者必须使用root特权执行，则可以使用进程。尽管比线程更重量级，但在任务与应用程序仅略有关联的情况下，创建一个单独的进程可能很有用。</p>
+</li>
+</ul>
+<h3 id="线程技术"><a href="#线程技术" class="headerlink" title="线程技术"></a>线程技术</h3><p>线程的底层实现机制是<code>Mach</code>线程，但是很少使用<code>Mach</code>级别的线程，而通常使用更方便的<code>POSIX API</code>或它的衍生产品之一。</p>
+<p><code>Mach</code>的实现提供了所有线程的基本功能，包括优先执行模型(<code>preemptive execution model</code>)和调度线程(<code>schedule threads</code>)的能力，使线程之间彼此独立。</p>
+<p>可以在应用程序中使用的线程技术：</p>
+<table>
+<thead>
+<tr>
+<th>技术</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><a href="https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/Multithreading/CreatingThreads/CreatingThreads.html#//apple_ref/doc/uid/10000057i-CH15-SW12" target="_blank" rel="noopener">POSIX threads</a></td>
+<td>POSIX线程为创建线程提供了一个基于c的接口<code>pthread</code>。如果您不编写<code>Cocoa</code>应用程序，这是创建线程的最佳选择。</td>
+</tr>
+<tr>
+<td><a href="https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/Multithreading/CreatingThreads/CreatingThreads.html#//apple_ref/doc/uid/10000057i-CH15-SW11" target="_blank" rel="noopener">Cocoa threads</a></td>
+<td>Cocoa使用NSThread类实现线程。Cocoa还提供了<a href="https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/Multithreading/CreatingThreads/CreatingThreads.html#//apple_ref/doc/uid/10000057i-CH15-SW13" target="_blank" rel="noopener">NSObject</a>上的方法，用于生成新线程并在已经运行的线程上执行代码。</td>
+</tr>
+<tr>
+<td><a href="https://developer.apple.com/library/archive/documentation/General/Conceptual/ConcurrencyProgrammingGuide/Introduction/Introduction.html#//apple_ref/doc/uid/TP40008091" target="_blank" rel="noopener">Operation objects</a></td>
+<td>Operation对象是对通常在辅助线程上执行的任务的包装。这个包装器隐藏了执行任务的线程管理方面，让你可以专注于任务本身。</td>
+</tr>
+<tr>
+<td><a href="https://developer.apple.com/library/archive/documentation/General/Conceptual/ConcurrencyProgrammingGuide/Introduction/Introduction.html#//apple_ref/doc/uid/TP40008091" target="_blank" rel="noopener">GCD(Grand Central Dispatch)</a></td>
+<td>GCD可以让您专注于需要执行的任务，而不是线程管理。</td>
+</tr>
+</tbody></table>
+<h3 id="线程三种状态"><a href="#线程三种状态" class="headerlink" title="线程三种状态"></a>线程三种状态</h3><p>在应用程序层面(<code>application level</code>)，所有线程的行为方式基本上与其他平台上相同。启动线程后，线程以三种主要状态之一运行：运行(<code>running</code>)、就绪(<code>ready</code>)或阻塞(<code>blocked</code>)。</p>
+<p>如果一个线程当前没有运行，则它要么被阻塞并等待输入，要么准备运行但尚未计划这样做。线程继续在这些状态之间来回移动，直到它最终退出并进入终止状态。</p>
+<p>创建新线程时，必须为该线程指定一个入口点函数（对于<code>Cocoa</code>线程，则为入口点方法）。这个入口点函数构成了要在线程上运行的代码。当函数返回时，或显式终止线程时，线程将永久停止并由系统回收。</p>
+<blockquote>
+<p>由于创建线程在 内存消耗 和 CPU时间 方面相对昂贵，因此建议入口点函数上执行大量的工作，或者设置一个<code>run loop</code>，以允许重复执行工作。</p>
+</blockquote>
+<h2 id="Run-Loop-和-Threads"><a href="#Run-Loop-和-Threads" class="headerlink" title="Run Loop 和 Threads"></a>Run Loop 和 Threads</h2><ul>
+<li><p><code>run loop</code>是用于管理异步到达线程上的事件的基础架构。<code>run loop</code>通过监视线程的一个或多个事件源(<code>event sources</code>)来工作。</p>
+</li>
+<li><p>当事件到达时，系统唤醒线程并将事件分派到<code>run loop</code>，然后 <code>run loop</code> 将事件分派给你指定的处理程序。如果不存在准备处理的事件，则<code>run loop</code>将线程置于睡眠状态。</p>
+</li>
+</ul>
+<p>你不需要对创建的任何线程使用<code>run loop</code>，但是这样做可以为用户提供更好的体验。<code>run loop</code>使创建使用最少资源的长寿命线程成为可能。因为<code>run loop</code>在无事可做时将其线程置为睡眠状态，因此不需要轮询。轮询会浪费CPU循环，并阻止了处理器本身休眠和节省电量。</p>
+<p>要配置<code>run loop</code>，您所要做的就是启动线程，获取<code>run loop</code>对象的引用，安装事件处理程序，并告诉运行循环运行。</p>
+<p>系统提供的基础结构会自动处理主线程运行循环的配置。但是，如果你计划创建长寿的辅助线程，则必须自己为这些线程配置<code>run loop</code>。</p>
+<h2 id="同步工具-Synchronization-Tools"><a href="#同步工具-Synchronization-Tools" class="headerlink" title="同步工具(Synchronization Tools)"></a>同步工具(Synchronization Tools)</h2><p>线程编程的危险之一是多线程之间的资源争用。</p>
+<p>由于单个应用程序中的线程共享相同的内存空间，所以它们可以访问所有相同的数据结构。如果多个线程试图同时使用或修改同一资源，可能会出现问题。</p>
+<p>解决这多线程资源争用问题的方法：</p>
+<ul>
+<li><p>其一种方法：完全消除共享资源，并确保每个线程都有自己不同的资源集来进行操作。</p>
+</li>
+<li><p>但是，当不能维护完全独立的资源时，您可能必须使用锁(<code>locks</code>)、条件(<code>conditions</code>)、原子操作(<code>atomic operations</code>)和其他技术来同步对资源的访问。</p>
+</li>
+</ul>
+<h3 id="互斥锁"><a href="#互斥锁" class="headerlink" title="互斥锁"></a>互斥锁</h3><p>锁(<a href="https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/Multithreading/ThreadSafety/ThreadSafety.html#//apple_ref/doc/uid/10000057i-CH8-126320" target="_blank" rel="noopener">Locks</a>)为一次只能由一个线程执行的代码提供了暴力的保护形式。</p>
+<p>最常见的锁类型是<strong>互斥锁</strong>，当一个线程尝试获取当前由另一个线程持有的互斥体时，它将阻塞，直到另一个线程释放锁为止。</p>
+<p>一些系统框架提供了对互斥锁的支持，尽管它们都基于相同的底层技术。此外，<code>Cocoa</code>提供了互斥锁的多种变体，来支持不同类型的行为。</p>
+<h3 id="条件-conditions"><a href="#条件-conditions" class="headerlink" title="条件(conditions)"></a>条件(conditions)</h3><p>除了锁之外，系统还提供了对 <code>conditions</code>(条件) 的支持，以确保在应用程序中正确的排序任务。</p>
+<p><code>conditions</code>(条件) 充当看门人，阻塞给定线程，直到它表示的条件为真。当这种情况发生时，<code>conditions</code>将释放线程并允许其继续。<code>POSIX</code>层 和 <code>Foundation</code>框架都直接提供了对 <code>conditions</code>(条件) 的支持。</p>
+<blockquote>
+<p>如果使用<code>operation objects</code>，则可以配置操作对象之间的依赖关系以对任务的执行进行排序，这与<code>conditions</code>(条件)提供的行为非常相似。</p>
+</blockquote>
+<h3 id="Atomic-Operations-原子操作"><a href="#Atomic-Operations-原子操作" class="headerlink" title="Atomic Operations(原子操作)"></a>Atomic Operations(原子操作)</h3><p>尽管 <code>Locks</code> 和 <code>conditions</code>在并行设计中非常常见，但是原子操作(<code>atomic operations</code>)是另一种保护和同步对数据访问的方法。</p>
+<p><code>Atomic Operations</code>使用特殊的硬件指令来确保在其他线程有机会访问变量之前完成对变量的修改。</p>
+<blockquote>
+<p>在可以对标量数据类型(<code>int、float、Bool...</code>)执行数学或逻辑运算的情况下，原子操作 提供了一种轻量级替代锁的方法。</p>
+</blockquote>
+<h2 id="线程间通讯-Inter-thread-Communication"><a href="#线程间通讯-Inter-thread-Communication" class="headerlink" title="线程间通讯(Inter-thread Communication)"></a>线程间通讯(Inter-thread Communication)</h2><p>线程可能 需要处理新的工作请求 或 将其进度报告给应用程序的主线程。在这些情况下，你需要一种方法从一个线程到另一个线程获取信息。由于，线程共享相同的<strong>进程空间</strong>，这意味着您有很多通信选项。</p>
+<p>线程之间有许多通信方式，每种都有其自身的优点和缺点。如下表列出了可以在<code>MacOS</code>中使用的最常见的 通信机制，此表中的技术按复杂度递增的顺序排序。</p>
+<blockquote>
+<p>下表除了 <code>Message queues</code> 和 <code>Cocoa distributed objects</code> 外，其它技术在<code>iOS</code>中也可用。</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>机制</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>直接通讯 (Cocoa Perform Selector Sources)</td>
+<td><code>Cocoa</code>应用程序支持直接在其他线程上执行选择器的功能。这个功能意味着一个线程可以在任何其他线程上执行一个方法。由于它们是在目标线程的上下文中执行的，所以以这种方式发送的消息将在该线程上自动序列化。</td>
+</tr>
+<tr>
+<td>全局变量，共享内存和对象</td>
+<td>尽管共享变量快速而简单，但是必须使用锁或其他同步机制仔细保护，以确保代码的正确性。否则，可能会导致竞争状况、数据损坏或崩溃。</td>
+</tr>
+<tr>
+<td><code>Conditions</code></td>
+<td><code>Conditions</code>是一种同步工具，可以用于控制线程何时执行代码的特定部分。只有在满足所述条件时才允许线程运行。</td>
+</tr>
+<tr>
+<td><code>Run loop sources</code></td>
+<td>自定义run loop sources是你设置为在线程上接收特定于应用程序的消息的源。由于它们是事件驱动的，因此运行循环源可以使您的线程在无事可做时自动进入睡眠状态，从而提高了线程的效率。</td>
+</tr>
+<tr>
+<td><code>Ports</code> 和 <code>sockets</code></td>
+<td>基于端口的通信是两个线程之间通信的一种更为复杂的方式，但它也是一种非常可靠的技术。更重要的是，<code>Ports</code> 和 <code>sockets</code>可用于与外部实体（如其他进程和服务）进行通信。为了提高效率，端口是使用运行循环源实现的，因此当端口上没有数据等待时，线程就会休眠。</td>
+</tr>
+<tr>
+<td>Message queues</td>
+<td>传统的多处理服务定义了先进先出（<code>FIFO</code>）队列抽象，用于管理传入和传出数据。尽管消息队列既简单又方便，但是它们却不如其他一些通信技术高效。</td>
+</tr>
+<tr>
+<td>Cocoa distributed objects</td>
+<td>distributed objects(分布式对象)是一种Cocoa技术，可提供基于端口的通信的高级实现。虽然可以将此技术用于线程间通信，但由于它会产生大量的开销，因此强烈不建议这样做。<a href="https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/DistrObjects/DistrObjects.html#//apple_ref/doc/uid/10000102i" target="_blank" rel="noopener">Distributed Objects Programming Topics</a></td>
+</tr>
+</tbody></table>
+<h2 id="线程设计技巧"><a href="#线程设计技巧" class="headerlink" title="线程设计技巧"></a>线程设计技巧</h2><p>下面的一些技巧，可以帮助你以确保代码正确的方式实现线程，以及帮助你使用自己的线程代码获得更好的性能。</p>
+<h3 id="避免显式地创建线程"><a href="#避免显式地创建线程" class="headerlink" title="避免显式地创建线程"></a>避免显式地创建线程</h3><p>手动编写线程创建代码很繁琐，而且可能容易出错，应该尽可能避免这样做。<code>MacOS</code>和<code>iOS</code> 通过其他<code>API</code>为并发提供隐式支持。与其自己创建线程，不如考虑使用异步<code>API</code>，<code>GCD</code>或<code>operation</code>对象来完成这项工作。这些技术可以在幕后为你完成与线程相关的工作，并保证正确地完成这些工作。</p>
+<blockquote>
+<p>此外，<code>GCD</code>和<code>operation</code>对象等技术旨在根据当前系统负载调整活动线程的数量，从而比你自己的代码更有效地管理线程。</p>
+</blockquote>
+<h3 id="保持线程合理忙碌"><a href="#保持线程合理忙碌" class="headerlink" title="保持线程合理忙碌"></a>保持线程合理忙碌</h3><p>如果决定手动创建和管理线程，请记住线程会消耗宝贵的系统资源。你应该尽力确保分配给线程的所有任务都可以长期有效的工作。</p>
+<p>同时，你不必担心终止大部分时间闲置的线程。线程占用的内存非常少，其中一些是连接的，因此释放空闲线程不仅有助于减少应用程序的内存占用，还可以释放更多物理内存供系统其他进程使用。</p>
+<blockquote>
+<p>在开始终止空闲线程之前，应该始终记录一组应用程序当前性能的基线测量值。在尝试更改之后，请采取额外的度量来验证这些更改实际上是在提高性能，而不是损害性能。</p>
+</blockquote>
+<h3 id="避免共享数据结构"><a href="#避免共享数据结构" class="headerlink" title="避免共享数据结构"></a>避免共享数据结构</h3><p>避免与线程相关的资源冲突，最简单的方法是给程序中的每个线程提供自己所需数据的副本。当最小化线程之间的通信和资源争用时，并行代码最有效。</p>
+<p>创建多线程应用程序很困难。即使你非常谨慎并在代码的所有正确位置锁定共享数据结构，您的代码在语义上仍可能是不安全的。例如，如果您的代码希望共享数据结构按特定顺序进行修改，则可能会遇到问题。将您的代码更改为基于事务的模型(<code>transaction-based model</code>)以进行补偿，可能会导致多线程的性能优势被抵消。</p>
+<blockquote>
+<p>消除资源争用通常会导致设计简单，性能出色。</p>
+</blockquote>
+<h3 id="线程和用户界面"><a href="#线程和用户界面" class="headerlink" title="线程和用户界面"></a>线程和用户界面</h3><p>如果应用程序具有图形用户界面，建议您从应用程序的主线程接收与用户相关的事件并启动界面更新。这种方法有助于避免与 处理用户事件 和 绘制窗口 内容相关的同步问题。</p>
+<p>有一些值得注意的例外，从其他线程执行图形操作是有利的。例如，您可以使用辅助线程来创建和处理图像以及执行其他与图像有关的计算。对这些操作使用辅助线程可以大大提高性能。</p>
+<p><a href="https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/CocoaDrawingGuide/Introduction/Introduction.html#//apple_ref/doc/uid/TP40003290" target="_blank" rel="noopener">Cocoa Drawing Guide</a></p>
+<h3 id="注意退出时的线程行为"><a href="#注意退出时的线程行为" class="headerlink" title="注意退出时的线程行为"></a>注意退出时的线程行为</h3><p>进程将一直运行，直到所有<code>non-detached</code>(未分离)的线程退出为止。默认情况下，只有应用程序的主线程被创建为<code>non-detached</code>，但你也可以通过这种方式创建其他线程。</p>
+<p>当用户退出应用程序时，通常认为应该立即终止所有<code>detached threads</code>(分离线程)是适当的行为，因为<code>detached threads</code>所做的工作被认为是可选的。但是，如果您的应用程序正在使用后台线程将数据保存到磁盘或执行其他关键工作，则可能需要将这些线程创建为<code>non-detached</code>，以防止在应用程序退出时丢失数据。</p>
+<p>将线程创建为 <code>non-detached</code>(也称为<code>joinable</code>(可连接)) 需要你进行额外的工作。由于大多数高级线程技术在默认情况下不会创建<code>joinable threads</code>，因此您可能必须使用<code>POSIX API</code>来创建线程。此外，必须向应用程序的主线程添加代码，以便在<code>non-detached threads</code>最终退出时加入。</p>
+<p>如果你正在写一个<code>macOS</code>应用程序，也可以使用<code>applicationShouldTerminate:</code> 代理方法来延迟应用程序的终止，直到以后或者干脆取消它。当延迟终止时，您的应用程序需要等到任何关键线程完成任务，然后调用<code>replyToApplicationShouldTerminate:</code>方法。</p>
+<h3 id="处理异常-Handle-Exceptions"><a href="#处理异常-Handle-Exceptions" class="headerlink" title="处理异常(Handle Exceptions)"></a>处理异常(Handle Exceptions)</h3><p>异常处理机制 依赖于当前调用堆栈在抛出异常时执行任何必要的清理。因为每个线程都有自己的调用堆栈，所以每个线程负责捕获自己的异常。在辅助线程中未能捕获到异常与在主线程中未能捕获到异常相同：拥有异常的进程被终止。不能抛给其他线程处理未捕获的异常。</p>
+<p>如果你需要将当前线程中的异常情况通知另一个线程（如主线程），你应该捕获异常并简单地向另一个线程发送一条消息，指示发生了什么。根据您的模型和您试图做的事情，捕获异常的线程可以继续处理(如果可能的话)、等待指令、或者干脆退出。</p>
+<blockquote>
+<p>在<code>Cocoa</code>中，<code>NSException</code>对象是一个独立的对象，一旦被捕获，即可在线程之间传递。</p>
+</blockquote>
+<p>在某些情况下，可能会自动为您创建一个异常处理程序。 例如，<code>Objective-C</code>中的<code>@synchronized</code>指令包含一个隐式异常处理程序。</p>
+<h3 id="干净地终止线程"><a href="#干净地终止线程" class="headerlink" title="干净地终止线程"></a>干净地终止线程</h3><p>线程退出的最佳方法是自然的让它到达其主入口点例程的末尾。</p>
+<p>虽然有一些函数可以立即终止线程，但这些函数只能作为最后的手段使用。在线程到达其自然终点之前终止它会阻止线程在自身之后清理干净。</p>
+<p>如果线程已分配内存、打开了文件或获取了其他类型的资源，则代码可能无法回收这些资源，从而导致内存泄漏或其他潜在问题。</p>
+<h3 id="库中的线程安全-Thread-Safety-in-Libraries"><a href="#库中的线程安全-Thread-Safety-in-Libraries" class="headerlink" title="库中的线程安全(Thread Safety in Libraries)"></a>库中的线程安全(Thread Safety in Libraries)</h3><p>虽然应用程序开发人员可以控制应用程序是否使用多个线程执行，但是库开发人员不能。开发库时，必须假定调用的应用程序是多线程的，或者可以随时切换为多线程的。因此，你应该始终对代码的关键部分使用锁。</p>
+<p>对于库开发人员来说，只在应用程序变为多线程时才创建锁是不明智的。如果需要在某个时刻锁定代码，请在使用库的早期创建lock对象，最好是通过某种显式调用来初始化库。尽管您也可以使用静态库初始化函数来创建这样的锁，但是只有在没有其他方法的情况下才尝试这样做。函数的初始化可能会对函数的执行造成不利影响。</p>
+<blockquote>
+<p>始终记得在库中平衡对互斥锁的锁定和解锁调用。您还应该记住锁定库数据结构，而不是依赖调用代码来提供线程安全的环境。</p>
+</blockquote>
+<h2 id="学些博客"><a href="#学些博客" class="headerlink" title="学些博客"></a>学些博客</h2><p><a href="https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/Multithreading/Introduction/Introduction.html#//apple_ref/doc/uid/10000057i-CH1-SW1" target="_blank" rel="noopener">Threading Programming Guide</a></p>
+<p><a href="https://developer.apple.com/library/archive/documentation/General/Conceptual/ConcurrencyProgrammingGuide/Introduction/Introduction.html#//apple_ref/doc/uid/TP40008091" target="_blank" rel="noopener">Concurrency Programming Guide</a></p>
+<p><a href="http://www.devtalking.com/articles/read-threading-programming-guide-1/" target="_blank" rel="noopener">读 Threading Programming Guide 笔记（一）</a></p>
+</div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">Czm</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://yoursite.com/2021/10/15/Threads-%E4%B8%80/">http://yoursite.com/2021/10/15/Threads-%E4%B8%80/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://yoursite.com">Czm</a>！</span></div></div><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/iOS/">iOS</a></div><nav id="pagination"><div class="next-post pull-right"><a href="/2020/10/12/Runloop-%E4%B8%80/"><span>Runloop(一)</span><i class="fa fa-chevron-right"></i></a></div></nav></div></div><footer><div class="layout" id="footer"><div class="copyright">&copy;2013 - 2021 By Czm</div><div class="framework-info"><span>驱动 - </span><a href="http://hexo.io" target="_blank" rel="noopener"><span>Hexo</span></a><span class="footer-separator">|</span><span>主题 - </span><a href="https://github.com/Molunerfinn/hexo-theme-melody" target="_blank" rel="noopener"><span>Melody</span></a></div><div class="busuanzi"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><span id="busuanzi_container_page_pv"><i class="fa fa-file"></i><span id="busuanzi_value_page_pv"></span><span></span></span></div></div></footer><i class="fa fa-arrow-up" id="go-up" aria-hidden="true"></i><script src="https://cdn.jsdelivr.net/npm/animejs@latest/anime.min.js"></script><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@latest/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-ui-pack@latest/velocity.ui.min.js"></script><script src="/js/utils.js?version=1.7.0"></script><script src="/js/fancybox.js?version=1.7.0"></script><script src="/js/sidebar.js?version=1.7.0"></script><script src="/js/copy.js?version=1.7.0"></script><script src="/js/fireworks.js?version=1.7.0"></script><script src="/js/transition.js?version=1.7.0"></script><script src="/js/scroll.js?version=1.7.0"></script><script src="/js/head.js?version=1.7.0"></script><script>if(/Android|webOS|iPhone|iPod|iPad|BlackBerry/i.test(navigator.userAgent)) {
+  $('#nav').addClass('is-mobile')
+  $('footer').addClass('is-mobile')
+  $('#top-container').addClass('is-mobile')
+}</script></body></html>
