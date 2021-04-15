@@ -1,0 +1,80 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="description" content="MVC 和 MVVM"><meta name="keywords" content="iOS"><meta name="author" content="Czm"><meta name="copyright" content="Czm"><title>MVC 和 MVVM | Czm</title><link rel="shortcut icon" href="/img/my-favicon.ico"><link rel="stylesheet" href="/css/index.css?version=1.7.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css?version=1.7.0"><meta name="format-detection" content="telephone=no"><meta http-equiv="x-dns-prefetch-control" content="on"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  }
+} </script><meta name="generator" content="Hexo 4.2.1"></head><body><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true"></i><div id="sidebar" data-display="true"><div class="toggle-sidebar-info text-center"><span data-toggle="切换文章详情">切换站点概览</span><hr></div><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar"></div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#MVC"><span class="toc-number">1.</span> <span class="toc-text">MVC</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#MVC在ios中各模块的作用："><span class="toc-number">1.1.</span> <span class="toc-text">MVC在ios中各模块的作用：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ios中MVC的问题："><span class="toc-number">1.2.</span> <span class="toc-text">ios中MVC的问题：</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MVVM"><span class="toc-number">2.</span> <span class="toc-text">MVVM</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#MVVM各组成部分的作用"><span class="toc-number">2.1.</span> <span class="toc-text">MVVM各组成部分的作用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MVVM的优缺点"><span class="toc-number">2.2.</span> <span class="toc-text">MVVM的优缺点</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#设计模式大全"><span class="toc-number">3.</span> <span class="toc-text">设计模式大全</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#学习博客"><span class="toc-number">4.</span> <span class="toc-text">学习博客</span></a></li></ol></div></div><div class="author-info hide"><div class="author-info__avatar text-center"><img src="img/avatar.jpeg"></div><div class="author-info__name text-center">Czm</div><div class="author-info__description text-center">学习记录</div><div class="follow-button"><a href="https://github.com/czmCWH" target="_blank" rel="noopener">Follow Me</a></div><hr><div class="author-info-articles"><a class="author-info-articles__archives article-meta" href="/archives"><span class="pull-left">文章</span><span class="pull-right">27</span></a><a class="author-info-articles__tags article-meta" href="/tags"><span class="pull-left">标签</span><span class="pull-right">7</span></a><a class="author-info-articles__categories article-meta" href="/categories"><span class="pull-left">分类</span><span class="pull-right">10</span></a></div><hr><div class="author-info-links"><div class="author-info-links__title text-center">Links</div><a class="author-info-links__name text-center" href="https://www.cnswift.org/about-swift" target="_blank" rel="noopener">swift中文文档</a><a class="author-info-links__name text-center" href="https://swift.gg" target="_blank" rel="noopener">SwiftGG</a><a class="author-info-links__name text-center" href="http://chuangzaoshi.com" target="_blank" rel="noopener">创造狮导航</a><a class="author-info-links__name text-center" href="http://lib.xcz.im/library" target="_blank" rel="noopener">《西窗烛》</a></div></div></div><div id="content-outer"><div class="no-bg" id="top-container"><div id="page-header"><span class="pull-left"> <a id="site-name" href="/">Czm</a></span><i class="fa fa-bars toggle-menu pull-right" aria-hidden="true"></i><span class="pull-right menus">   <a class="site-page" href="/">Home</a><a class="site-page" href="/archives">Archives</a><a class="site-page" href="/tags">Tags</a><a class="site-page" href="/categories">Categories</a><a class="site-page" href="/About">关于</a></span><span class="pull-right"></span></div><div id="post-info"><div id="post-title">MVC 和 MVVM</div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> 2020-04-15</time><span class="post-meta__separator">|</span><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/iOS/">iOS</a><i class="fa fa-angle-right" aria-hidden="true"></i><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/iOS/%E6%9E%B6%E6%9E%84/">架构</a></div></div></div><div class="layout" id="content-inner"><article id="post"><div class="article-container" id="post-content"><p>设计模式（Design pattern）是一套被反复使用、多数人知晓的、经过分类编目的、代码设计经验的总结。使用设计模式是为了可重用代码、让代码更容易被他人理解、保证代码可靠性。 毫无疑问，设计模式于己于他人于系统都是多赢的；设计模式使代码编制真正工程化；设计模式是软件工程的基石脉络，如同大厦的结构一样。</p>
+<a id="more"></a>
+
+<h2 id="MVC"><a href="#MVC" class="headerlink" title="MVC"></a>MVC</h2><p>对于 MVC 架构模式，不同平台和语言对它的定义也都不一样，如下两张图就可以很容易解释 MVC 的作用。</p>
+<img src="/2020/04/15/MVC-%E5%92%8C-MVVM/111.jpg" class="" title="This is an example image">
+
+<img src="/2020/04/15/MVC-%E5%92%8C-MVVM/222.jpg" class="" title="This is an example image">
+
+<p>iOS 中的 Cocoa Touch 自古以来就遵循 MVC 架构模式，由于 UIViewController 类持有一个根视图 UIView，所以视图层与控制器层是紧密耦合在一起的，这也是 iOS 项目经常遇到视图控制器非常臃肿的重要原因之一。</p>
+<h3 id="MVC在ios中各模块的作用："><a href="#MVC在ios中各模块的作用：" class="headerlink" title="MVC在ios中各模块的作用："></a>MVC在ios中各模块的作用：</h3><ul>
+<li><p>model (模型) : 主要负责存储和操作数据</p>
+</li>
+<li><p>view (视图) : 主要负责展示数据 和 用户交互</p>
+</li>
+<li><p>controller : 主要负责将 model 和 view 联系起来:</p>
+</li>
+</ul>
+<p>从网络获取数据 –&gt; 赋值给数据模型 –&gt; 将model的数据传递给view 展 (响应view的delegate和datasource 法)  –&gt; 刷新 view</p>
+<h3 id="ios中MVC的问题："><a href="#ios中MVC的问题：" class="headerlink" title="ios中MVC的问题："></a>ios中MVC的问题：</h3><p>模型的代码很少；控制器的代码越来越多；不好测试</p>
+<h2 id="MVVM"><a href="#MVVM" class="headerlink" title="MVVM"></a>MVVM</h2><p><code>MVVM</code>(即，<code>Model-View-ViewModel</code>) 对 <code>MVC</code> 进行了优化，可以很好地解决 <code>VC与View紧密耦合</code> 问题的办法就是将 <code>VC</code> 中的展示逻辑抽取出来，放置到一个专门的地方，而这个地方就是 <code>viewModel</code>。其实，我们只要在上图中的 <code>M-VC</code> 之间放入 <code>VM</code> ，就可以得到 <code>MVVM</code> 模式的结构图。使用 <code>MVVM</code> 会轻微的增加代码量，但总体上减少了代码的复杂性。</p>
+<img src="/2020/04/15/MVC-%E5%92%8C-MVVM/333.jpg" class="" title="This is an example image">
+
+<ul>
+<li>在 <code>MVVM</code> 中，<code>view</code> 和 <code>view controller</code> 正式联系在一起，我们把它们视为一个组件。</li>
+<li><code>view</code> 和 <code>view controller</code> 都不能直接引用 <code>model</code>，而是引用 <code>view model</code>。</li>
+<li><code>view model</code> 是一个放置用户输入验证逻辑，视图显示逻辑，发起网络请求和其他代码。</li>
+</ul>
+<p>MVVM使用注意事项：<br>1、view 引用 view model，但反过来不行<br>2、view model 引用了 model，但反过来不行<br>3、如果我们破坏了这些规则，便无法正确地使用 MVVM</p>
+<img src="/2020/04/15/MVC-%E5%92%8C-MVVM/444.jpg" class="" title="This is an example image">
+
+<p><code>MVVM</code> 把 <code>MVC</code> 拆成了下图演示的样子，原来 <code>View</code> 对应的与数据相关的代码都移到 <code>ViewModel</code> 中，相应的 <code>C</code> 也变瘦了，演变成了 <code>M-VM-C-V</code> 的结构。<a href="https://halfrost.com/ios_router/" target="_blank" rel="noopener">摘自 冰霜博客</a></p>
+<img src="/2020/04/15/MVC-%E5%92%8C-MVVM/40_17.gif" class="" title="This is an example image">
+
+<h3 id="MVVM各组成部分的作用"><a href="#MVVM各组成部分的作用" class="headerlink" title="MVVM各组成部分的作用"></a>MVVM各组成部分的作用</h3><ul>
+<li><p>模型(M)：保存视图数据。</p>
+</li>
+<li><p>视图+控制器(V)：展示内容 + 接收 view 的事件、调用 viewModel 的方法、响应 viewModel 的变化。</p>
+</li>
+<li><p>视图模型(VM)：处理展示的业务逻辑，包括按钮的点击，数据的请求和解析等等。</p>
+</li>
+</ul>
+<h3 id="MVVM的优缺点"><a href="#MVVM的优缺点" class="headerlink" title="MVVM的优缺点"></a>MVVM的优缺点</h3><p>1、优点：</p>
+<ul>
+<li><p>低耦合，view可以独立于model的变化和修改，一个viewModel可以绑定到不同的view上</p>
+</li>
+<li><p>代码高复用率，可以把一些视图逻辑放到一个viewModel中，让很多view公用这段逻辑</p>
+</li>
+<li><p>独立开发，开发人员可以关注业务逻辑和数据开发，设计人员可以关注页面的设计</p>
+</li>
+<li><p>可测试，在MVC中界面测试比较困难，而MVVM中可以针对viewModel进行测试</p>
+</li>
+</ul>
+<p>2、缺点：</p>
+<p>数据绑定使得Bug 很难被调试。你看到界面异常了，有可能是你 View 的代码有 Bug，也可能是 Model 的代码有问题。</p>
+<h2 id="设计模式大全"><a href="#设计模式大全" class="headerlink" title="设计模式大全"></a>设计模式大全</h2><p><a href="https://github.com/huang303513/Design-Pattern-For-iOS" target="_blank" rel="noopener">huang303513/Design-Pattern-For-iOS</a>，1.2k，IOS设计模式探索(大话设计模式)</p>
+<p><a href="https://github.com/swiftdo/design-patterns" target="_blank" rel="noopener">设计模式，经典样例 * swiftdo/design-patterns</a></p>
+<h2 id="学习博客"><a href="#学习博客" class="headerlink" title="学习博客"></a>学习博客</h2><p><a href="http://zhangzr.cn/2017/04/26/斯坦福大学iOS公开课学习笔记（1）-iOS的MVC框架/#more" target="_blank" rel="noopener">斯坦福大学iOS公开课MVC笔记 * zhangzr’s blog</a></p>
+<p><a href="https://cainluo.github.io/categories/iOS架构/" target="_blank" rel="noopener">CainLuo * iOS架构之MVVM</a></p>
+<p><a href="https://mp.weixin.qq.com/s/KXAD7XaP23ymoZihzNIt8A" target="_blank" rel="noopener">实现一套轻量级MVVM框架</a></p>
+<p><a href="https://swift.gg/2016/05/26/mvvm-is-not-very-good/" target="_blank" rel="noopener">Swift.GG * MVVM 不是那么好</a></p>
+<p><a href="https://www.jianshu.com/p/28564dd77506" target="_blank" rel="noopener">Swift优雅的拆分VC的View</a></p>
+<p><a href="https://www.jianshu.com/p/aed9a3705991" target="_blank" rel="noopener">简书 KevinTing * 用MVVM和MVC写代码</a></p>
+<p><a href="https://github.com/FrizzleFur/DailyLearning/blob/master/设计模式/解析-MVVM.md" target="_blank" rel="noopener">FrizzleFur/DailyLearning</a></p>
+<p><a href="https://github.com/ifgyong/archives" target="_blank" rel="noopener">iOS底层原理 * ifgyong/archives</a></p>
+<p><a href="https://github.com/Jaylin0920/img" target="_blank" rel="noopener">MVC/MVVM/Thread/Runtime配图 * Jaylin0920/img</a></p>
+<p><a href="https://www.jianshu.com/p/f9ec208b00b6" target="_blank" rel="noopener">MVVM面试题</a></p>
+</div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">Czm</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://yoursite.com/2020/04/15/MVC-%E5%92%8C-MVVM/">http://yoursite.com/2020/04/15/MVC-%E5%92%8C-MVVM/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://yoursite.com">Czm</a>！</span></div></div><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/iOS/">iOS</a></div><nav id="pagination"><div class="prev-post pull-left"><a href="/2020/06/15/hexo%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/"><i class="fa fa-chevron-left">  </i><span>hexo搭建博客</span></a></div></nav></div></div><footer><div class="layout" id="footer"><div class="copyright">&copy;2013 - 2021 By Czm</div><div class="framework-info"><span>驱动 - </span><a href="http://hexo.io" target="_blank" rel="noopener"><span>Hexo</span></a><span class="footer-separator">|</span><span>主题 - </span><a href="https://github.com/Molunerfinn/hexo-theme-melody" target="_blank" rel="noopener"><span>Melody</span></a></div><div class="busuanzi"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><span id="busuanzi_container_page_pv"><i class="fa fa-file"></i><span id="busuanzi_value_page_pv"></span><span></span></span></div></div></footer><i class="fa fa-arrow-up" id="go-up" aria-hidden="true"></i><script src="https://cdn.jsdelivr.net/npm/animejs@latest/anime.min.js"></script><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@latest/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-ui-pack@latest/velocity.ui.min.js"></script><script src="/js/utils.js?version=1.7.0"></script><script src="/js/fancybox.js?version=1.7.0"></script><script src="/js/sidebar.js?version=1.7.0"></script><script src="/js/copy.js?version=1.7.0"></script><script src="/js/fireworks.js?version=1.7.0"></script><script src="/js/transition.js?version=1.7.0"></script><script src="/js/scroll.js?version=1.7.0"></script><script src="/js/head.js?version=1.7.0"></script><script>if(/Android|webOS|iPhone|iPod|iPad|BlackBerry/i.test(navigator.userAgent)) {
+  $('#nav').addClass('is-mobile')
+  $('footer').addClass('is-mobile')
+  $('#top-container').addClass('is-mobile')
+}</script></body></html>
