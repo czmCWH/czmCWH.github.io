@@ -41,7 +41,7 @@
 <p>1、输入源(<code>Input sources</code>) 将异步事件传递给相应的处理程序，并使 <code>runUntilDate:</code> 方法(在线程关联的<code>NSRunLoop</code>对象上调用)退出。</p>
 <p>2、计时器源(<code>Timer sources</code>) 将事件传递给它们的处理程序例程(<code>handler routine</code>)，但不会导致<code>run loop</code>退出。</p>
 
-
+<img src="/2020/10/12/Runloop-%E4%B8%80/16043727346165.jpg" class="" title="This is an example image">
 
 <p><code>run-loop</code>除了处理输入源(<code>Input sources</code>)，它还生成有关<code>run-loop</code>行为的通知。注册 <code>run-loop observers</code>(运行循环观察者) 可以接收这些通知，并使用它们对线程执行其它处理。可以使用<code>Core Foundation</code>在线程上安装<code>run-loop observers</code>。</p>
 <h3 id="输入源-Input-Sources"><a href="#输入源-Input-Sources" class="headerlink" title="输入源(Input Sources)"></a>输入源(Input Sources)</h3><p><code>Input Sources</code> 以异步方式向线程传递事件。事件的来源取决于<code>Input Sources</code>的类型，<code>Input Sources</code>的类型通常是如下这两种类型之一：</p>
@@ -161,7 +161,7 @@
 </tr>
 </tbody></table>
 <h2 id="事件的Run-Loop执行顺序-Run-Loop-Sequence-of-Events"><a href="#事件的Run-Loop执行顺序-Run-Loop-Sequence-of-Events" class="headerlink" title="事件的Run Loop执行顺序(Run Loop Sequence of Events)"></a>事件的Run Loop执行顺序(Run Loop Sequence of Events)</h2><p>每次运行时，线程的<code>run loop</code>都会处理挂起(未解决、待处理)的事件，并为任何附加的观察者(<code>observers</code>)生成通知。其具体执行顺序如下所示：</p>
-
+<img src="/2020/10/12/Runloop-%E4%B8%80/16191594146692.jpg" class="" title="This is an example image">
 
 <p>1、通知<code>Observers</code>已进入<code>run loop</code>。<br>2、通知<code>Observers</code>任何准备就绪的定时器(<code>timer</code>)即将触发。<br>3、通知<code>Observers</code>任何不基于端口的输入源(<code>Port-Based Sources</code>)都将被触发。<br>4、触发所有准备触发的非基于端口的输入源(<code>non-port-based input sources</code>)。<br>5、如果基于端口的输入源(<code>port-based input source</code>)已准备好并等待启动，请立即处理事件。 转到步骤9。<br>6、通知<code>Observers</code>线程即将进入休眠。<br>7、将线程置于休眠状态，直到一下任一事件发生：</p>
 <ul>
