@@ -1,0 +1,231 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="description" content="LLDB"><meta name="keywords" content="iOS"><meta name="author" content="Czm"><meta name="copyright" content="Czm"><title>LLDB | Czm</title><link rel="shortcut icon" href="/img/my-favicon.ico"><link rel="stylesheet" href="/css/index.css?version=1.7.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css?version=1.7.0"><meta name="format-detection" content="telephone=no"><meta http-equiv="x-dns-prefetch-control" content="on"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  }
+} </script><meta name="generator" content="Hexo 4.2.1"></head><body><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true"></i><div id="sidebar" data-display="true"><div class="toggle-sidebar-info text-center"><span data-toggle="切换文章详情">切换站点概览</span><hr></div><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar"></div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#LLDB-命令语法"><span class="toc-number">1.</span> <span class="toc-text">LLDB 命令语法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#subcommand-子命令"><span class="toc-number">1.1.</span> <span class="toc-text">subcommand 子命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Arguments-参数"><span class="toc-number">1.2.</span> <span class="toc-text">Arguments 参数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Options-选项"><span class="toc-number">1.3.</span> <span class="toc-text">Options 选项</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#命令表单"><span class="toc-number">1.4.</span> <span class="toc-text">命令表单</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#使用命令行帮助"><span class="toc-number">1.5.</span> <span class="toc-text">使用命令行帮助</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Breakpoints-断点"><span class="toc-number">2.</span> <span class="toc-text">Breakpoints 断点</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#设置-Breakpoint"><span class="toc-number">2.1.</span> <span class="toc-text">设置 Breakpoint</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#修改-Breakpoint"><span class="toc-number">2.2.</span> <span class="toc-text">修改 Breakpoint</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#在断点处运行命令"><span class="toc-number">2.3.</span> <span class="toc-text">在断点处运行命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#禁用和启用断点"><span class="toc-number">2.4.</span> <span class="toc-text">禁用和启用断点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#删除-Breakpoint"><span class="toc-number">2.5.</span> <span class="toc-text">删除 Breakpoint</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Watchpoints"><span class="toc-number">3.</span> <span class="toc-text">Watchpoints</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#设置-Watchpoint"><span class="toc-number">3.1.</span> <span class="toc-text">设置 Watchpoint</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#列出-Watchpoints"><span class="toc-number">3.2.</span> <span class="toc-text">列出 Watchpoints</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#修改-Watchpoint"><span class="toc-number">3.3.</span> <span class="toc-text">修改 Watchpoint</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#向-Watchpoints-添加命令"><span class="toc-number">3.4.</span> <span class="toc-text">向 Watchpoints 添加命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#删除-Watchpoint"><span class="toc-number">3.5.</span> <span class="toc-text">删除 Watchpoint</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#控制程序执行"><span class="toc-number">4.</span> <span class="toc-text">控制程序执行</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#汇编指令级别控制"><span class="toc-number">4.1.</span> <span class="toc-text">汇编指令级别控制</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#检查调用-Stack"><span class="toc-number">5.</span> <span class="toc-text">检查调用 Stack</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#获取有关当前帧的信息"><span class="toc-number">5.1.</span> <span class="toc-text">获取有关当前帧的信息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#检查变量"><span class="toc-number">5.2.</span> <span class="toc-text">检查变量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#执行-Expressions"><span class="toc-number">5.3.</span> <span class="toc-text">执行 Expressions</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#打印模式"><span class="toc-number">5.4.</span> <span class="toc-text">打印模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#获取-Backtrace"><span class="toc-number">5.5.</span> <span class="toc-text">获取 Backtrace</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#线程清单"><span class="toc-number">5.6.</span> <span class="toc-text">线程清单</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#学习博客"><span class="toc-number">6.</span> <span class="toc-text">学习博客</span></a></li></ol></div></div><div class="author-info hide"><div class="author-info__avatar text-center"><img src="img/avatar.jpeg"></div><div class="author-info__name text-center">Czm</div><div class="author-info__description text-center">学习记录</div><div class="follow-button"><a href="https://github.com/czmCWH" target="_blank" rel="noopener">Follow Me</a></div><hr><div class="author-info-articles"><a class="author-info-articles__archives article-meta" href="/archives"><span class="pull-left">文章</span><span class="pull-right">35</span></a><a class="author-info-articles__tags article-meta" href="/tags"><span class="pull-left">标签</span><span class="pull-right">7</span></a><a class="author-info-articles__categories article-meta" href="/categories"><span class="pull-left">分类</span><span class="pull-right">10</span></a></div><hr><div class="author-info-links"><div class="author-info-links__title text-center">Links</div><a class="author-info-links__name text-center" href="https://www.cnswift.org/about-swift" target="_blank" rel="noopener">swift中文文档</a><a class="author-info-links__name text-center" href="https://swift.gg" target="_blank" rel="noopener">SwiftGG</a><a class="author-info-links__name text-center" href="http://chuangzaoshi.com" target="_blank" rel="noopener">创造狮导航</a><a class="author-info-links__name text-center" href="http://lib.xcz.im/library" target="_blank" rel="noopener">《西窗烛》</a></div></div></div><div id="content-outer"><div class="no-bg" id="top-container"><div id="page-header"><span class="pull-left"> <a id="site-name" href="/">Czm</a></span><i class="fa fa-bars toggle-menu pull-right" aria-hidden="true"></i><span class="pull-right menus">   <a class="site-page" href="/">Home</a><a class="site-page" href="/archives">Archives</a><a class="site-page" href="/tags">Tags</a><a class="site-page" href="/categories">Categories</a><a class="site-page" href="/About">关于</a></span><span class="pull-right"></span></div><div id="post-info"><div id="post-title">LLDB</div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> 2020-05-14</time><span class="post-meta__separator">|</span><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/iOS/">iOS</a><i class="fa fa-angle-right" aria-hidden="true"></i><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/iOS/Xcode/">Xcode</a></div></div></div><div class="layout" id="content-inner"><article id="post"><div class="article-container" id="post-content"><p><code>Debugging</code>(调试)是指创建并使用分析框架来隔离因果路径并检验假设。<code>debugging</code>最重要的工具是<code>debugger</code>(调试器)，它可以帮助你了解程序在运行时的行为，而无需修改代码。</p>
+<a id="more"></a>
+
+<p><code>LLDB</code> 为 <code>Apple</code>平台上的开发人员提供了底层调试环境。你可以从 <code>Terminal</code>窗口 或 <code>Xcode</code>源代码编辑器 中使用它，以查找和消除<code>Swift</code>，<code>C</code>，<code>C++</code> 和 <code>Objective-C</code> 代码中的问题。</p>
+<p><code>debugger</code>具有两个主要功能：控制执行流 和 访问状态。</p>
+<p>你主要通过在代码中的不同位置设置<code>breakpoints</code>来控制程序的执行。每当程序达到设置的<code>breakpoint</code>时，<code>debugger</code>就会暂时停止执行该程序。在执行停止后，你可以使用<code>debugger</code>检查或修改不同变量的当前状态，<code>step over、into</code>或退出下一条语句，然后根据需要继续执行。</p>
+<h2 id="LLDB-命令语法"><a href="#LLDB-命令语法" class="headerlink" title="LLDB 命令语法"></a>LLDB 命令语法</h2><p>通过在调试会话中输入命令来与 <code>LLDB</code> 进行交互。每个 <code>LLDB command</code> 由零个或多个<code>subcommand</code>组成，并且可以以下形式另外指定一个或多个选项或参数：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;command&gt; [&lt;subcommand&gt;...] [--&lt;option&gt; [&lt;option-value&gt;]]... [argument]...</span><br></pre></td></tr></table></figure>
+
+<h3 id="subcommand-子命令"><a href="#subcommand-子命令" class="headerlink" title="subcommand 子命令"></a><code>subcommand</code> 子命令</h3><p><code>Subcommands</code> 是用空格分隔的标记，用于组织相关的操作。通常，<code>command</code>的最后<code>subcommand</code>是指示要执行的操作的谓词。例如，与断点管理相关的命令以<code>breakpoint</code>开头，例如 <code>breakpoint list</code>和<code>breakpoint disable</code>命令，它们分别列出和禁用断点。</p>
+<h3 id="Arguments-参数"><a href="#Arguments-参数" class="headerlink" title="Arguments 参数"></a><code>Arguments</code> 参数</h3><p><code>command</code>可能需要一个或多个<code>arguments</code>。<code>arguments</code> 是用空格分隔的标记，用于指示要执行的操作。例如，<code>breakpoint disable</code>命令需要一个参数来指定要禁用的断点，例如<code>breakpoint disable 1</code>，它会禁用ID等于1的断点。</p>
+<blockquote>
+<p>用单引号(‘’)或双引号(“”)括起来来指定包含空格的参数。在单引号或双引号中，可以使用反斜杠字符()来转义非定界的引号，例如 <code>&quot;some \&quot;quoted\&quot; string&quot;</code>。</p>
+</blockquote>
+<h3 id="Options-选项"><a href="#Options-选项" class="headerlink" title="Options 选项"></a><code>Options</code> 选项</h3><p><code>command</code>可能还包含一个或多个<code>options</code>。<code>options</code>是以双破折号(<code>--</code>)开头的以空格分隔的标记，可以在不同的组合中使用，以修改要执行的操作。某些<code>options</code>还提供了使用单破折号(<code>-</code>)的简写形式。例如，当<code>breakpoint set</code>命令指定<code>--one-shot (-o)</code>选项时，如<code>breakpoint set —one--shot</code>，该<code>breakpoint</code>将在第一次导致程序停止时被删除。</p>
+<p>某些<code>options</code>指定单个空格分隔的值作命令的命名参数。例如，<code>breakpoint set</code>命令可以通过传递<code>--name</code>选项，并将函数名称作为选项值来设置特定函数的断点。</p>
+<p>某些命令可能需要某些组合的<code>options</code>。例如，<code>breakpoint set</code>命令可以通过传递<code>--file</code>和<code>--line</code>选项以及相应的文件名和行号来在代码中的特定位置设置断点。</p>
+<blockquote>
+<p>接受<code>options</code> 和 自由格式参数的命令(如<code>expression</code>命令)，必须在最后一个<code>option</code>和第一个参数之间放置一个以空格分隔的双破折号(<code>--</code>)。这样可以确保以破折号(<code>-</code>)开头的<code>option</code>的参数被解释为参数。</p>
+</blockquote>
+<h3 id="命令表单"><a href="#命令表单" class="headerlink" title="命令表单"></a>命令表单</h3><p>等效的 <code>LLDB</code> 命令可以以各种不同的形式表示。例如，以下3个命令执行相同的操作：</p>
+<ul>
+<li>Canonical form 规范形式</li>
+</ul>
+<p><code>expression --object-description -- someVariable</code></p>
+<p>命令的<code>canonical form</code>充当要执行的操作的描述性表示。</p>
+<ul>
+<li>Abbreviated form 缩写形式</li>
+</ul>
+<p><code>e -O -- someVariable</code></p>
+<p>命令的<code>abbreviated form</code>使用命令和子命令的缩写形式（例如<code>e</code>表示<code>expression</code>）以及<code>options</code>的缩写形式（例如<code>-O</code>表示<code>--object-description</code>）。</p>
+<ul>
+<li>Alias 别名</li>
+</ul>
+<p><code>po someVariable</code></p>
+<p>可以为任何命令子序列创建一个<code>alias</code>，为执行常见操作提供方便的快捷方式。例如<code>po</code>用来计算并打印对象表达式。</p>
+<p>为了清楚起见，本文档主要以<code>canonical form</code>引用命令，后跟括号中的任何缩写形式或别名。</p>
+<h3 id="使用命令行帮助"><a href="#使用命令行帮助" class="headerlink" title="使用命令行帮助"></a>使用命令行帮助</h3><p><code>LLDB</code> 通过 <code>help</code> 命令在<code>debugger</code>会话中提供了大量文档。</p>
+<p>调用不带任何参数的 <code>help</code> 命令将列出所有可用的 调试器命令 以及 现有的命令别名。例如：<code>(lldb) help</code></p>
+<p>通过将特定命令或子命令作为 <code>help</code> 命令的参数传递，可以获得有关特定命令或子命令的用法的信息。例如：<code>(lldb) help breakpoint set</code></p>
+<p><code>help</code>命令适用于任何可用形式的命令，包括别名。例如：<code>(lldb) help po</code></p>
+<h2 id="Breakpoints-断点"><a href="#Breakpoints-断点" class="headerlink" title="Breakpoints 断点"></a>Breakpoints 断点</h2><p><code>breakpoint</code>在执行的指定点中断程序的执行。<code>breakpoint</code>是开发人员使用<code>debugger</code>开始与程序进行交互的主要方法。</p>
+<h3 id="设置-Breakpoint"><a href="#设置-Breakpoint" class="headerlink" title="设置 Breakpoint"></a>设置 Breakpoint</h3><p>你可以使用 <code>breakpoint set</code> 命令设置 <code>breakpoint</code>：</p>
+<ul>
+<li><code>breakpoint set -n 函数名或绝对路径</code> 添加断点</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">(lldb) breakpoint set -n sayHello</span><br><span class="line">Breakpoint 2: 2 locations.</span><br><span class="line">(lldb) breakpoint list</span><br><span class="line">Current breakpoints:</span><br><span class="line">...</span><br><span class="line">2: name &#x3D; &#39;sayHello&#39;, locations &#x3D; 2, resolved &#x3D; 2, hit count &#x3D; 0</span><br><span class="line">  2.1: where &#x3D; test01&#96;test01.OneViewController.sayHello() -&gt; () + 20 at OneViewController.swift:48:15, address &#x3D; 0x000000010bd744f4, resolved, hit count &#x3D; 0 </span><br><span class="line">  2.2: where &#x3D; test01&#96;test01.TwoViewController.sayHello() -&gt; () + 20 at TwoViewController.swift:103:15, address &#x3D; 0x000000010bd7a654, resolved, hit count &#x3D; 0 </span><br><span class="line"></span><br><span class="line"># 或者以绝对的方式设置断点</span><br><span class="line">(lldb) breakpoint set -n &quot;test01.OneViewController.sayHello() -&gt; ()&quot;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>breakpoint set -f 文件名 -l 行数</code> 在某个源文件某一行设置断点<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">(lldb) breakpoint set -f OneViewController.swift -l 47</span><br><span class="line">Breakpoint 7: where &#x3D; test01&#96;test01.OneViewController.sayHello() -&gt; () + 20 at OneViewController.swift:48:15, address &#x3D; 0x000000010f50c4f4</span><br><span class="line">(lldb) breakpoint list</span><br><span class="line">Current breakpoints:</span><br><span class="line">7: file &#x3D; &#39;OneViewController.swift&#39;, line &#x3D; 47, exact_match &#x3D; 0, locations &#x3D; 1, resolved &#x3D; 1, hit count &#x3D; 0</span><br><span class="line">  7.1: where &#x3D; test01&#96;test01.OneViewController.sayHello() -&gt; () + 20 at OneViewController.swift:48:15, address &#x3D; 0x000000010f50c4f4, resolved, hit count &#x3D; 0</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p>3、将<code>breakpoint</code>设置在随时发生 <code>Swift</code>错误 或 抛出<code>Objective-C</code>异常发生时，通过在 <code>--language-exception (-E)</code> 选项后传递 <code>Swift</code>或<code>objc</code>值</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 将断点配置为仅在抛出特定类型的错误或引发异常时停止</span><br><span class="line">(lldb) breakpoint set -E Swift -O EnumErrorType</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(lldb) breakpoint set -E objc</span><br></pre></td></tr></table></figure>
+
+<h3 id="修改-Breakpoint"><a href="#修改-Breakpoint" class="headerlink" title="修改 Breakpoint"></a>修改 Breakpoint</h3><p>通过使用 <code>breakpoint ID</code>或<code>location ID</code> 作为参数以及以下任何配置的选项，可以使用<code>breakpoint Modify</code>命令来修改逻辑断点或个别位置：</p>
+<ul>
+<li><code>--condition (-c)</code> 指定一个表达式，该表达式必须计算为true才能使断点停止</li>
+<li><code>--ignore-count (-i)</code> 指定在停止之前跳过断点的次数</li>
+<li><code>--one-shot (-o)</code> 第一次停止时删除断点</li>
+<li><code>--queue-name (-q)</code> 指定断点在其上停止的队列的名称</li>
+<li><code>--thread-name (-T)</code> 指定断点在其上停止的线程的名称</li>
+<li><code>--thread-id (-t)</code> 指定断点在其上停止的线程的ID（TID）</li>
+<li><code>--thread-index (-x)</code> 指定断点在其上停止的线程的索引</li>
+</ul>
+<p>例如，下面的代码片段显示了如何修改第一个断点，使其在第一次停在其任何位置时被删除：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(lldb) breakpoint modify --one-shot 1</span><br></pre></td></tr></table></figure>
+
+<h3 id="在断点处运行命令"><a href="#在断点处运行命令" class="headerlink" title="在断点处运行命令"></a>在断点处运行命令</h3><p>当达到设定的<code>breakpoint</code>时，它将停止程序的执行并允许运行LLDB命令。你还可以通过使用<code>breakpoint command add</code>命令来指定每次到达<code>breakpoint</code>时要运行的命令，该命令将 <code>breakpoint ID</code> 或 <code>location ID</code>作为参数。</p>
+<p>例如，要将命令添加到第一个断点的第一个位置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">(lldb) breakpoint command add 1.1</span><br><span class="line">Enter your debugger command(s). Type &#39;DONE&#39; to end.</span><br><span class="line">&gt; thread backtrace</span><br><span class="line">&gt; DONE</span><br></pre></td></tr></table></figure>
+
+<p>默认情况下，<code>breakpoint command add</code>命令使用<code>LLDB command interpreter</code>(LLDB命令解释器)，并打开一个交互式提示，该提示的行以直角括号<code>(&gt;)</code>开头。每行输入一个命令。输入命令完成后，键入DONE退出交互式提示。</p>
+<p>如果你输入<code>process Continue</code>命令作为最后一个断点命令，则<code>debugger</code>器将在执行所有前面的命令后自动继续运行程序。这对于记录有关程序状态的信息而又不中断用户与程序的交互性特别方便。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">(lldb) breakpoint command add 1.1</span><br><span class="line">Enter your debugger command(s). Type &#39;DONE&#39; to end.</span><br><span class="line">&gt; frame variable</span><br><span class="line">&gt; process continue</span><br><span class="line">&gt; DONE</span><br></pre></td></tr></table></figure>
+
+<p>要指定要在指定的断点内联而不是在交互式提示中执行的命令，请将<code>--one-liner (-o)</code>选项（带有单引号的值作为引号括起来）传递给<code>breakpoint command add</code>命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(lldb) breakpoint command add 1.1 -o &quot;bt&quot;</span><br></pre></td></tr></table></figure>
+
+<h3 id="禁用和启用断点"><a href="#禁用和启用断点" class="headerlink" title="禁用和启用断点"></a>禁用和启用断点</h3><ul>
+<li>禁用<code>logical breakpoint</code>时，它不会在任何位置停止。要禁用断点而不删除它，请使用<code>breakpoint disable</code>命令。 </li>
+</ul>
+<p>1、通过传递breakpoint ID作为参数来禁用 logical breakpoint：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">(lldb) breakpoint disable 1</span><br><span class="line">1 breakpoints disabled.</span><br></pre></td></tr></table></figure>
+
+<p>2、传递location ID 禁用单个断点位置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">(lldb) breakpoint disable 2.1</span><br><span class="line">1 breakpoints disabled.</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>使用 <code>breakpoint enable</code> 命令启用<code>logical breakpoint</code>或<code>breakpoint location</code>，并传递 <code>breakpoint ID</code> 或 <code>location ID</code>。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">(lldb) breakpoint enable 1</span><br><span class="line">1 breakpoints enabled.</span><br><span class="line">(lldb) breakpoint enable 2.1</span><br><span class="line">1 breakpoints enabled.</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>要仅禁用<code>logical breakpoint</code>的某些位置，请使用breakpoint disable命令，传递断点ID，后跟点分隔的通配符（*）。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">(lldb) breakpoint disable 1.*</span><br><span class="line">2 breakpoint disabled*</span><br><span class="line">(lldb) breakpoint enable 1.1</span><br><span class="line">1 breakpoint enabled.</span><br></pre></td></tr></table></figure>
+
+<h3 id="删除-Breakpoint"><a href="#删除-Breakpoint" class="headerlink" title="删除 Breakpoint"></a>删除 Breakpoint</h3><p>删除断点将禁用它，并防止重新启用它。使用<code>breakpoint delete + breakpoint ID</code>命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">(lldb) breakpoint delete 1</span><br><span class="line">1 breakpoints deleted; 2 breakpoint locations disabled.</span><br></pre></td></tr></table></figure>
+
+<h2 id="Watchpoints"><a href="#Watchpoints" class="headerlink" title="Watchpoints"></a>Watchpoints</h2><p><code>watchpoint</code>(监视点)是你在地址或变量上设置的一种<code>breakpoint</code>，可在访问值时随时停止，而不是在执行时进行设置。</p>
+<p><code>Watchpoints</code>受运行调试程序的硬件上的寄存器数限制。</p>
+<p>可以使用 <code>watchpoint</code> 来隔离执行过程中何时更改变量，这对于调试在代码中多个组件之间共享的状态特别有用。一旦知道了变量的更改位置和更改方式，便可以在要调查的执行点上创建<code>breakpoints</code>，然后删除<code>watchpoint</code>。</p>
+<h3 id="设置-Watchpoint"><a href="#设置-Watchpoint" class="headerlink" title="设置 Watchpoint"></a>设置 Watchpoint</h3><p>使用 <code>watchpoint set variable 变量名</code> 命令在变量上设置<code>watchpoint</code>，并使用 <code>watchpoint set expression</code> 命令在表达式中的地址上设置<code>watchpoint</code>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"># 设置当前断点上下文的变量</span><br><span class="line">(lldb) watchpoint set variable num</span><br><span class="line">Watchpoint created: Watchpoint 1: addr &#x3D; 0x7ffee2b501c0 size &#x3D; 8 state &#x3D; enabled type &#x3D; w</span><br><span class="line">    declare @ &#39;&#x2F;Users&#x2F;dong&#x2F;Desktop&#x2F;test01&#x2F;test01&#x2F;OneViewController.swift:42&#39;</span><br><span class="line">    watchpoint spec &#x3D; &#39;num&#39;</span><br><span class="line"></span><br><span class="line"># 设置当前对象的变量</span><br><span class="line">(lldb) watchpoint set variable self.a</span><br><span class="line">Watchpoint created: Watchpoint 2: addr &#x3D; 0x7fec40940748 size &#x3D; 8 state &#x3D; enabled type &#x3D; w</span><br><span class="line">    declare @ &#39;&#x2F;Users&#x2F;dong&#x2F;Desktop&#x2F;test01&#x2F;test01&#x2F;OneViewController.swift:40&#39;</span><br><span class="line">    watchpoint spec &#x3D; &#39;self.a&#39;</span><br></pre></td></tr></table></figure>
+
+<p>默认情况下，<code>watchpoint</code>监视对变量或地址的写访问。通过将<code>--watch (-w)</code>选项传递给值read，write或read_write，指定要监视的访问类型。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">watchpoint set variable -w [read | write | read_write] 变量名</span><br></pre></td></tr></table></figure>
+
+<p>默认情况下，监视点使用目标的指针字节大小监视读写。通过传递值为 <code>1 | 2 | 4 | 8</code> 的 <code>--size (-s)</code> 选项来更改用于监视区域的字节数。</p>
+<h3 id="列出-Watchpoints"><a href="#列出-Watchpoints" class="headerlink" title="列出 Watchpoints"></a>列出 Watchpoints</h3><p>与<code>breakpoints</code>一样，您可以使用 <code>watchpoint list</code> 命令显示所有已设置的<code>watchpoints</code>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(lldb) watchpoint list</span><br></pre></td></tr></table></figure>
+
+<p>像<code>breakpoint</code>一样，<code>watchpoints</code>也具有分配的整数ID。与断点不同，<code>watchpoints</code>不会解析到任何特定位置，因为它会监视变量或地址的任何更改。</p>
+<h3 id="修改-Watchpoint"><a href="#修改-Watchpoint" class="headerlink" title="修改 Watchpoint"></a>修改 Watchpoint</h3><p>使用<code>watchpoint modify</code>命令通过将<code>watchpoint ID</code>作为参数以及<code>--condition (-c)</code>选项和表达式作为其值，来传递设置<code>watchpoint</code>停止的时间。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">(lldb) watchpoint modify --condition !places.isEmpty</span><br><span class="line">1 watchpoints modified.</span><br></pre></td></tr></table></figure>
+
+<h3 id="向-Watchpoints-添加命令"><a href="#向-Watchpoints-添加命令" class="headerlink" title="向 Watchpoints 添加命令"></a>向 Watchpoints 添加命令</h3><p>要添加在击中监视点时运行的命令，请使用 <code>watchpoint command add</code> 命令，并将 <code>watchpoint ID</code> 作为参数传递。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">(lldb) watchpoint command add 1</span><br><span class="line">Enter your debugger command(s).  Type &#39;DONE&#39; to end.</span><br><span class="line">&gt; bt</span><br><span class="line">&gt; DONE</span><br></pre></td></tr></table></figure>
+
+<h3 id="删除-Watchpoint"><a href="#删除-Watchpoint" class="headerlink" title="删除 Watchpoint"></a>删除 Watchpoint</h3><p>由于<code>watchpoints</code>受硬件限制，因此在不需要它们时将其删除很重要。可以使用<code>watchpoint delete</code>命令删除<code>watchpoint</code>，并将 <code>watchpoint ID</code> 作为参数传递。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">(lldb) watchpoint delete 1</span><br><span class="line">1 watchpoints deleted.</span><br></pre></td></tr></table></figure>
+
+<h2 id="控制程序执行"><a href="#控制程序执行" class="headerlink" title="控制程序执行"></a>控制程序执行</h2><p>一旦程序在<code>breakpoint</code>处停止，它将控制权转移到<code>debugger</code>。然后，开发人员可以与<code>debugger</code>进行交互，以逐步完成指令并继续执行或退出。</p>
+<img src="/2020/05/14/LLDB/16209703051119.jpg" class="" title="This is an example image">
+
+
+<ul>
+<li><p><code>thread step-over</code> \ <code>next</code> \ <code>n</code>：单步运行，把子函数当作整体一步执行。</p>
+</li>
+<li><p><code>thread step-in</code> \ <code>step</code> \ <code>s</code>：单步运行，遇到子函数会进入函数内。</p>
+</li>
+<li><p><code>thread step-out</code> \ <code>finish</code>：直接执行完当前函数所有代码，返回到上一个函数。</p>
+</li>
+<li><p><code>process continue</code> \ <code>continue</code> \ <code>c</code>：在完成对程序当前断点处的检查后，使用此命令恢复执行程序。</p>
+</li>
+</ul>
+<h3 id="汇编指令级别控制"><a href="#汇编指令级别控制" class="headerlink" title="汇编指令级别控制"></a>汇编指令级别控制</h3><p>可以使用 <code>Xcode</code> -&gt; <code>Debug</code> -&gt; <code>Debug Workflow</code> -&gt; <code>Always Show Disassembly</code> 切换源码级别和汇编指令级别调试面板</p>
+<ul>
+<li><code>thread step-inst-over</code> \ <code>nexti</code> \ <code>ni</code>：和 <code>n</code>类似</li>
+<li><code>thread step-inst</code> \ <code>stepi</code> \ <code>si</code>：和 <code>s</code>类似</li>
+</ul>
+<h2 id="检查调用-Stack"><a href="#检查调用-Stack" class="headerlink" title="检查调用 Stack"></a>检查调用 Stack</h2><p>程序运行时，它将有关正在执行的操作的信息存储在称为<code>call stack</code>(调用栈)的数据结构中。每次调用一个方法时，程序都会在<code>call stack</code>的顶部<code>pushes</code>一个新的<code>stack frame</code>(栈帧)，其中包含以下内容：传递给该方法的参数（如果有），该方法的局部变量（如果有的话）以及地址 方法调用完成后返回。</p>
+<p>当程序在<code>breakpoint</code>处停止时，你可以与<code>debugger</code>进行交互以检查当前<code>stack frame</code>的状态。这使你可以对方法的行为以及它与程序其他部分的交互方式进行推理。</p>
+<p>除了获取有关当前<code>stack frame</code>的信息之外，你还可以与<code>debugger</code>进行交互，以检查当前线程以及程序使用的其他线程的整个<code>call stack</code>。</p>
+<h3 id="获取有关当前帧的信息"><a href="#获取有关当前帧的信息" class="headerlink" title="获取有关当前帧的信息"></a>获取有关当前帧的信息</h3><p>通过输入<code>frame info</code>命令，可以获得代码中当前<code>frame</code>(帧)的位置，包括源文件和行号。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(lldb) frame info</span><br></pre></td></tr></table></figure>
+
+<h3 id="检查变量"><a href="#检查变量" class="headerlink" title="检查变量"></a>检查变量</h3><ul>
+<li>使用<code>frame variable (fr v)</code>命令获取<code>stack frame</code>中所有变量的列表。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(lldb) frame variable</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>要获取有关单个变量的信息，请使用<code>frame variable</code>命令，并将变量名称作为参数传递。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(lldb) frame variable name</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>显示当前帧的局部变量</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(lldb) fr v -a</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>显示格式为十六进制的局部变量栏的内容</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">(lldb) fr v -f x num</span><br><span class="line">(Int) num &#x3D; 0x000000000000000a</span><br></pre></td></tr></table></figure>
+
+<h3 id="执行-Expressions"><a href="#执行-Expressions" class="headerlink" title="执行 Expressions"></a>执行 Expressions</h3><p>LLDB最强大的功能之一是能够从调试会话中<code>evaluate expressions</code>(计算表达式)。</p>
+<p><code>expression (e)</code>命令将传递的参数作为目标语言中的表达式进行计算。例如，在调试<code>Swift</code>程序时，可以将 <code>Swift</code> 代码当作当前<code>stack frame</code>上下文中的<code>read-eval-print (REPL) loop</code>来执行。这是一种在执行过程中在不同点内省变量的强大方法。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">(lldb) expression -- self.view.backgroundColor &#x3D; .red</span><br><span class="line">() $R1 &#x3D; &#123;&#125;</span><br><span class="line">(lldb) finish</span><br><span class="line">(lldb) expression -- num &#x3D; num * 10</span><br><span class="line">() $R2 &#x3D; &#123;&#125;</span><br><span class="line">(lldb) expression -- print(num)</span><br><span class="line">100</span><br><span class="line">() $R3 &#x3D; &#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="打印模式"><a href="#打印模式" class="headerlink" title="打印模式"></a>打印模式</h3><p>在调试会话期间查看值时，重要的是要了解<code>frame variable</code>和 <code>expression</code>命令之间的差异。</p>
+<table>
+<thead>
+<tr>
+<th><code>frame variable (f v)</code></th>
+<th><code>expression -- (p)</code></th>
+<th><code>expression -O -- (po)</code></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>不运行代码</td>
+<td>运行你的代码</td>
+<td>运行你的代码</td>
+</tr>
+<tr>
+<td>使用LLDB格式化程序</td>
+<td>使用LLDB格式化程序</td>
+<td>添加代码以格式化对象</td>
+</tr>
+</tbody></table>
+<p>使用<code>frame variable (f v)</code>命令不会运行任何代码，因此不会产生任何副作用。访问属性或计算调用方法的结果通常会改变程序的状态，从而掩盖你试图调试的问题，因此，使用 <code>frame variable (f v)</code> 命令是进行粗略调查的最安全选择。</p>
+<p><code>expression</code> 命令是 <code>p</code> 和 <code>po</code> 的别名，这是调试时经常使用的操作。两者之间的区别在于，<code>p</code> 使用内置的 <code>LLDB</code> 数据格式化程序，而 <code>po</code> 调用由开发人员提供的创建该对象表示形式的代码，例如<code>Swift</code>中的<code>debugDescription</code>方法。 如果没有自定义表示形式，则<code>po</code>命令将退回到<code>p</code>命令提供的表示形式上。</p>
+<blockquote>
+<p>如果要使用默认的<code>LLDB</code>格式，请使用<code>p</code>；如果要使用类型的实现来控制表示，请使用<code>po</code>。</p>
+</blockquote>
+<h3 id="获取-Backtrace"><a href="#获取-Backtrace" class="headerlink" title="获取 Backtrace"></a>获取 Backtrace</h3><p><code>backtrace</code>(回溯) 是当前活动的函数调用的列表。通过使用 <code>thread backtrace (bt)</code> 命令，你可以更清楚地推断导致程序处于当前状态的事件链。</p>
+<p>调用不带参数的<code>thread backtrace</code>命令会生成当前线程的<code>backtrace</code>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(lldb) thread backtrace</span><br></pre></td></tr></table></figure>
+
+<p>可以将整数作为参数传递给<code>thread backtrace</code>命令，以限制显示的<code>frames</code>(帧数)。</p>
+<p>或者，以<code>all</code>作为参数调用<code>thread backtrace</code>命令会产生所有线程的完整<code>backtrace</code>。</p>
+<h3 id="线程清单"><a href="#线程清单" class="headerlink" title="线程清单"></a>线程清单</h3><p>程序通常跨多个线程执行代码。要获取进程中所有当前线程的列表，请使用<code>thread list</code>命令。</p>
+<h2 id="学习博客"><a href="#学习博客" class="headerlink" title="学习博客"></a>学习博客</h2><p><a href="https://lldb.llvm.org/#" target="_blank" rel="noopener">The LLDB Debugger</a></p>
+<p><a href="https://developer.apple.com/library/archive/documentation/General/Conceptual/lldb-guide/chapters/Introduction.html#//apple_ref/doc/uid/TP40016717" target="_blank" rel="noopener">About LLDB and Debugging</a></p>
+<p><a href="https://developer.apple.com/library/archive/documentation/DeveloperTools/Conceptual/debugging_with_xcode/chapters/about_debugging_w_xcode.html#//apple_ref/doc/uid/TP40015022" target="_blank" rel="noopener">About Debugging with Xcode</a></p>
+<p><a href="https://github.com/FrizzleFur/DailyLearning/tree/master/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7Tool%F0%9F%94%A7" target="_blank" rel="noopener">FrizzleFur/DailyLearning/开发工具Tool🔧/</a></p>
+<p><a href="https://help.apple.com/xcode/mac/current/#/devda5478599" target="_blank" rel="noopener">About the debug area * Xcode debugger</a></p>
+<p><a href="https://juejin.cn/post/6844903794493358093" target="_blank" rel="noopener">QiShare * iOS 常用调试方法：LLDB命令</a></p>
+<p><a href="https://objccn.io/issue-19-2/" target="_blank" rel="noopener">ObjC 中国 * 与调试器共舞</a></p>
+<p><a href="https://mp.weixin.qq.com/s/fNm_bZLl-Nxalpzlq6PMqw" target="_blank" rel="noopener">LLDB 小技巧：学习 po、p 和 v</a></p>
+<p><a href="http://lldb.llvm.org" target="_blank" rel="noopener">老司机技术周报 * The LLDB Debugger</a></p>
+</div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">Czm</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://yoursite.com/2020/05/14/LLDB/">http://yoursite.com/2020/05/14/LLDB/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://yoursite.com">Czm</a>！</span></div></div><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/iOS/">iOS</a></div><nav id="pagination"><div class="prev-post pull-left"><a href="/2020/06/15/hexo%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/"><i class="fa fa-chevron-left">  </i><span>hexo搭建博客</span></a></div><div class="next-post pull-right"><a href="/2020/04/26/NSTimer/"><span>NSTimer</span><i class="fa fa-chevron-right"></i></a></div></nav></div></div><footer><div class="layout" id="footer"><div class="copyright">&copy;2013 - 2021 By Czm</div><div class="framework-info"><span>驱动 - </span><a href="http://hexo.io" target="_blank" rel="noopener"><span>Hexo</span></a><span class="footer-separator">|</span><span>主题 - </span><a href="https://github.com/Molunerfinn/hexo-theme-melody" target="_blank" rel="noopener"><span>Melody</span></a></div><div class="busuanzi"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><span id="busuanzi_container_page_pv"><i class="fa fa-file"></i><span id="busuanzi_value_page_pv"></span><span></span></span></div></div></footer><i class="fa fa-arrow-up" id="go-up" aria-hidden="true"></i><script src="https://cdn.jsdelivr.net/npm/animejs@latest/anime.min.js"></script><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@latest/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-ui-pack@latest/velocity.ui.min.js"></script><script src="/js/utils.js?version=1.7.0"></script><script src="/js/fancybox.js?version=1.7.0"></script><script src="/js/sidebar.js?version=1.7.0"></script><script src="/js/copy.js?version=1.7.0"></script><script src="/js/fireworks.js?version=1.7.0"></script><script src="/js/transition.js?version=1.7.0"></script><script src="/js/scroll.js?version=1.7.0"></script><script src="/js/head.js?version=1.7.0"></script><script>if(/Android|webOS|iPhone|iPod|iPad|BlackBerry/i.test(navigator.userAgent)) {
+  $('#nav').addClass('is-mobile')
+  $('footer').addClass('is-mobile')
+  $('#top-container').addClass('is-mobile')
+}</script></body></html>
